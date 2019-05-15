@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.shop.dao.EmployeeMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ssm.shop.pojo.Employee" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="account" property="account" jdbcType="VARCHAR" />
+        <result column="pass_word" property="passWord" jdbcType="VARCHAR" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="head_img" property="headImg" jdbcType="VARCHAR" />
+        <result column="emp_code" property="empCode" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <result column="is_del" property="isDel" jdbcType="VARCHAR" />
+        <result column="reg_time" property="regTime" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+        <result column="dep_id" property="depId" jdbcType="VARCHAR" />
+        <result column="city_list" property="cityList" jdbcType="VARCHAR" />
+        <result column="f14" property="f14" jdbcType="VARCHAR" />
+         <result column="dep_task" property="depTask" jdbcType="VARCHAR" />
+        <result column="finish_task" property="finishTask" jdbcType="VARCHAR" />
+         <result column="task_id" property="taskId" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, account, pass_word, user_name, head_img, emp_code, phone, is_del, reg_time, remark, 
+        role_id, dep_id, city_list, f14,dep_task,finish_task,task_id
+    </sql>
+    
+    <select id="listEmployee" resultMap="BaseResultMap">
+    	select * from employee where 1=1
+    	<if test="account !=null and account !='' ">
+    		and account=#{account}
+    	</if>
+    	<if test="userName !=null and userName !='' ">
+    		and user_name like CONCAT('%',#{userName},'%')
+    	</if>
+    	<if test="depId !=null and depId !='' ">
+    		and dep_id =#{depId}
+    	</if>
+    	<if test="startdate !=null and startdate !='' ">
+	   		<![CDATA[and reg_time>= #{startdate}]]>
+		</if>
+		<if test="enddate !=null and enddate !='' ">
+	   		<![CDATA[and reg_time<= #{enddate}]]>
+		</if>
+    </select>
+    
+     <select id="listEmployeeByDep" resultMap="BaseResultMap">
+    	SELECT
+			* 
+		FROM
+			employee e3 
+		WHERE 1=1
+		<if test="id !=null and id !='' ">
+			and e3.dep_id = (
+		SELECT
+			d2.id 
+		FROM
+			department d2 
+		WHERE
+		
+			d2.company_id = ( SELECT d.company_id FROM employee e, department d WHERE e.dep_id = d.id AND e.id = #{id} ) 
+		
+			AND d2.NAME like CONCAT('%',CONCAT(#{depName}),'%'))
+		</if>
+		<if test="areaid !=null and areaid !='' ">
+			and e3.dep_id = ( SELECT id FROM department WHERE NAME LIKE CONCAT('%',CONCAT(#{depName}),'%') ) 
+			AND e3.id IN ( SELECT empid FROM emp_area WHERE areaid =(select c_id from customer where id= #{areaid}) )
+		</if>
+    </select>
+    
+    <select id="listBySearch" resultMap="BaseResultMap">
+    	select * from employee where dep_id=(select e.dep_id from employee e where e.id=#{id})
+    </select>
+    
+    <!-- 分页获取所有 -->
+    <select id="listEmployeeByPage" resultMap="BaseResultMap">
+    	select * from employee where 1=1
+    	<if test="account !=null and account !='' ">
+    		and account=#{account}
+    	</if>
+    	<if test="userName !=null and userName !='' ">
+    		and user_name like CONCAT('%',CONCAT(#{userName}),'%')
+    	</if>
+    	<if test="depId !=null and depId !='' ">
+    		and dep_id =#{depId}
+    	</if>
+    	<if test="startdate !=null and startdate !='' ">
+	   		<![CDATA[and reg_time>= #{startdate}]]>
+		</if>
+		<if test="enddate !=null and enddate !='' ">
+	   		<![CDATA[and reg_time<= #{enddate}]]>
+		</if>
+    	<if test="startRowNum!=-1 and endRowNum!=-1">
+    		limit #{startRowNum},#{endRowNum}
+    	</if>
+    </select>
+    
+    <!--获取记录条数 -->
+    <select id="selectCount" resultType="int">
+    	select count(id) from employee
+    	where 1=1
+    	<if test="account !=null and account !='' ">
+    		and account=#{account}
+    	</if>
+    	<if test="userName !=null and userName !='' ">
+    		and user_name like CONCAT('%',CONCAT(#{userName}),'%')
+    	</if>
+    	<if test="depId !=null and depId !='' ">
+    		and dep_id =#{depId}
+    	</if>
+    	<if test="startdate !=null and startdate !='' ">
+	   		<![CDATA[and reg_time>= #{startdate}]]>
+		</if>
+		<if test="enddate !=null and enddate !='' ">
+	   		<![CDATA[and reg_time<= #{enddate}]]>
+		</if>
+    </select>
+    
+    <!-- 分页按级别获取所有 -->
+    <select id="listEmployeeByLev" resultMap="BaseResultMap">
+    	select * from employee e,role r where e.role_id=r.id
+    	<if test="roleId !=null and roleId !='' ">
+    		<![CDATA[and r.lev < (select r1.lev from role r1 where id=#{roleId})]]>
+    	</if>
+    	<if test="depId !=null and depId !='' ">
+    		<![CDATA[and e.dep_id = #{depId}]]>
+    	</if>
+    	<if test="startRowNum!=-1 and endRowNum!=-1">
+    		limit #{startRowNum},#{endRowNum}
+    	</if>
+    </select>
+    
+    <select id="selectLev" resultType="int">
+    	select count(e.id) from employee e,role r where e.role_id=r.id
+    	<if test="roleId !=null and roleId !='' ">
+    		<![CDATA[and r.lev < (select r1.lev from role r1 where id=#{roleId})]]>
+    	</if>
+    	<if test="depId !=null and depId !='' ">
+    		<![CDATA[and e.dep_id = #{depId}]]>
+    	</if>
+    </select>
+    
+    <select id="selecByCompanyDep" resultMap="BaseResultMap">
+    	SELECT
+			* 
+		FROM
+			employee 
+		WHERE 1=1
+		<if test="companyId !=null and departmentId !=null">
+			and	dep_id = ( SELECT id FROM department WHERE company_id = #{companyId} AND id = #{departmentId} )
+		</if>
+		<if test="companyId ==null and departmentId !=null ">
+			and	dep_id =#{departmentId}
+		</if>
+		<if test="companyId !=null and departmentId ==null ">
+			and	dep_id in ( SELECT id FROM department WHERE company_id = #{companyId} )
+		</if>
+    </select>
+    
+    <!-- 获取所有总监 -->
+    <select id="selectZongJian" resultMap="BaseResultMap">
+    	select <include refid="Base_Column_List"></include>,
+    	(select name from department d where d.id=dep_id ) depName,
+    	(select name from company where id=(select d.company_id from department d where d.id=dep_id)) companyName
+    	from employee where role_id in (
+    		select id from role where name like CONCAT(CONCAT('%',#{userName},'%')))
+    		<if test="startRowNum!=-1 and endRowNum!=-1">
+    		limit #{startRowNum},#{endRowNum}
+    	</if>
+    </select>
+    
+    <select id="selectCountByZong" resultType="int">
+    	 select count(id) from employee where role_id in (
+    		select id from role where name like CONCAT(CONCAT('%',#{userName},'%')) )
+    </select>
+    
+     <!-- 登陆验证 -->
+    <select id="login" resultMap="BaseResultMap">
+    	select <include refid="Base_Column_List"></include>,
+    	(select name from department d where d.id=dep_id ) depName,
+    	(select name from company where id=(select d.company_id from department d where d.id=dep_id)) companyName
+    	from employee where is_del=2 and account=#{account} and pass_word=#{passWord}
+    </select>
+    
+      <!-- 注册验证 -->
+    <select id="register" resultMap="BaseResultMap">
+    	select <include refid="Base_Column_List"></include>
+    	from employee where account=#{account} 
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select 
+        <include refid="Base_Column_List" />,
+        (select name from department d where d.id=dep_id ) depName,
+    	(select name from company where id=(select d.company_id from department d where d.id=dep_id)) companyName
+        from employee
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from employee
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.ssm.shop.pojo.Employee" useGeneratedKeys="true" keyProperty="id">
+        insert into employee (id, account, pass_word, 
+            user_name, head_img, emp_code, 
+            phone, is_del, reg_time, 
+            remark, role_id, dep_id, 
+            city_list, f14,dep_task,finish_task,task_id)
+        values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{passWord,jdbcType=VARCHAR}, 
+            #{userName,jdbcType=VARCHAR}, #{headImg,jdbcType=VARCHAR}, #{empCode,jdbcType=VARCHAR}, 
+            #{phone,jdbcType=VARCHAR}, #{isDel,jdbcType=VARCHAR}, #{regTime,jdbcType=VARCHAR}, 
+            #{remark,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{depId,jdbcType=VARCHAR}, 
+            #{cityList,jdbcType=VARCHAR}, #{f14,jdbcType=VARCHAR},#{depTask,jdbcType=VARCHAR},
+            #{finishTask,jdbcType=VARCHAR},#{taskId,jdbcType=INTEGER})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ssm.shop.pojo.Employee" useGeneratedKeys="true" keyProperty="id">
+        insert into employee
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="account != null" >
+                account,
+            </if>
+            <if test="passWord != null" >
+                pass_word,
+            </if>
+            <if test="userName != null" >
+                user_name,
+            </if>
+            <if test="headImg != null" >
+                head_img,
+            </if>
+            <if test="empCode != null" >
+                emp_code,
+            </if>
+            <if test="phone != null" >
+                phone,
+            </if>
+            <if test="isDel != null" >
+                is_del,
+            </if>
+            <if test="regTime != null" >
+                reg_time,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+            <if test="roleId != null" >
+                role_id,
+            </if>
+            <if test="depId != null" >
+                dep_id,
+            </if>
+            <if test="cityList != null" >
+                city_list,
+            </if>
+            <if test="f14 != null" >
+                f14,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="account != null" >
+                #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="passWord != null" >
+                #{passWord,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null" >
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="headImg != null" >
+                #{headImg,jdbcType=VARCHAR},
+            </if>
+            <if test="empCode != null" >
+                #{empCode,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null" >
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="isDel != null" >
+                #{isDel,jdbcType=VARCHAR},
+            </if>
+            <if test="regTime != null" >
+                #{regTime,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId != null" >
+                #{roleId,jdbcType=VARCHAR},
+            </if>
+            <if test="depId != null" >
+                #{depId,jdbcType=VARCHAR},
+            </if>
+            <if test="cityList != null" >
+                #{cityList,jdbcType=VARCHAR},
+            </if>
+            <if test="f14 != null" >
+                #{f14,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ssm.shop.pojo.Employee" >
+        update employee
+        <set >
+            <if test="account != null and account !='' " >
+                account = #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="passWord != null and passWord !='' " >
+                pass_word = #{passWord,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null and userName !='' " >
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="headImg != null and headImg !='' " >
+                head_img = #{headImg,jdbcType=VARCHAR},
+            </if>
+            <if test="empCode != null and empCode!='' " >
+                emp_code = #{empCode,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null and phone !='' " >
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="isDel != null and isDel !='' " >
+                is_del = #{isDel,jdbcType=VARCHAR},
+            </if>
+            <if test="regTime != null and regTime !='' " >
+                reg_time = #{regTime,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null and remark !='' " >
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId != null and roleId !='' " >
+                role_id = #{roleId,jdbcType=VARCHAR},
+            </if>
+            <if test="depId != null and depId !='' " >
+                dep_id = #{depId,jdbcType=VARCHAR},
+            </if>
+            <if test="cityList != null and cityList!=''" >
+                city_list = #{cityList,jdbcType=VARCHAR},
+            </if>
+            <if test="f14 != null" >
+                f14 = #{f14,jdbcType=VARCHAR},
+            </if>
+            <if test="depTask != null and depTask !='' " >
+                dep_task = #{depTask,jdbcType=VARCHAR},
+            </if>
+            <if test="finishTask != null and finishTask!='' " >
+                finish_task = #{finishTask,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ssm.shop.pojo.Employee" >
+        update employee
+        set account = #{account,jdbcType=VARCHAR},
+            pass_word = #{passWord,jdbcType=VARCHAR},
+            user_name = #{userName,jdbcType=VARCHAR},
+            head_img = #{headImg,jdbcType=VARCHAR},
+            emp_code = #{empCode,jdbcType=VARCHAR},
+            phone = #{phone,jdbcType=VARCHAR},
+            is_del = #{isDel,jdbcType=VARCHAR},
+            reg_time = #{regTime,jdbcType=VARCHAR},
+            remark = #{remark,jdbcType=VARCHAR},
+            role_id = #{roleId,jdbcType=VARCHAR},
+            dep_id = #{depId,jdbcType=VARCHAR},
+            city_list = #{cityList,jdbcType=VARCHAR},
+            f14 = #{f14,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
