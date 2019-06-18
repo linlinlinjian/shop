@@ -1,5 +1,7 @@
 package com.ssm.shop.pojo;
 
+import com.ssm.shop.pojo.basePojo.BaseEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 

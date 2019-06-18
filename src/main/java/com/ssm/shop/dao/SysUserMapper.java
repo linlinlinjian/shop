@@ -20,7 +20,9 @@ public interface SysUserMapper {
 
     int updateByPrimaryKey(SysUser record);
     
-    List<SysUser> findPage();
+    List<SysUser> findPages(SysUser user);
+
+    int selectCount(SysUser user);
     
     SysUser findByName(@Param(value = "name") String name);
     

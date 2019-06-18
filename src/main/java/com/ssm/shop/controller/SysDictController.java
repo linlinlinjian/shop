@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SysDictController {
 
 	@Autowired
+
 	private SysDictService sysDictService;
 
 	@RequestMapping(value="/save")

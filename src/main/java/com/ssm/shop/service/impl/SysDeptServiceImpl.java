@@ -50,9 +50,11 @@ public class SysDeptServiceImpl implements SysDeptService {
 	}
 
 	@Override
-	public List<SysDept> findTree() {
+	public PageResult findTree(SysDept record) {
 		List<SysDept> sysDepts = new ArrayList<>();
-		List<SysDept> depts = sysDeptMapper.findAll();
+		int total=sysDeptMapper.selectCount(record);
+		record.setCurrentPage((record.getCurrentPage()-1)*record.getPageSize());
+		List<SysDept> depts = sysDeptMapper.findAll(record);
 		for (SysDept dept : depts) {
 			if (dept.getParentId() == null || dept.getParentId() == 0) {
 				dept.setLevel(0);
@@ -60,7 +62,20 @@ public class SysDeptServiceImpl implements SysDeptService {
 			}
 		}
 		findChildren(sysDepts, depts);
-		return sysDepts;
+		return new PageResult(record.getCurrentPage()+1,record.getPageSize(),total,sysDepts);
+	}
+
+	@Override
+	public PageResult findAll(SysDept record) {
+		int total=sysDeptMapper.selectCount(record);
+		record.setCurrentPage((record.getCurrentPage()-1)*record.getPageSize());
+		List<SysDept> rows = sysDeptMapper.findAll(record);
+		return new PageResult(record.getCurrentPage(),record.getPageSize(),total,rows);
+	}
+
+	@Override
+	public int selectCount(SysDept record) {
+		return 0;
 	}
 
 	private void findChildren(List<SysDept> sysDepts, List<SysDept> depts) {

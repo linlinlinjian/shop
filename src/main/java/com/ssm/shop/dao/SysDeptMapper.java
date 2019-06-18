@@ -21,5 +21,7 @@ public interface SysDeptMapper {
     
     List<SysDept> findPage();
     
-    List<SysDept> findAll();
+    List<SysDept> findAll(SysDept record);
+
+    int selectCount(SysDept record);
 }

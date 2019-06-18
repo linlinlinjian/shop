@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.shop.dao.SmsCouponCategoryMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ssm.shop.pojo.SmsCouponCategory" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="coupon_id" property="couponId" jdbcType="BIGINT" />
+        <result column="product_category_id" property="productCategoryId" jdbcType="BIGINT" />
+        <result column="product_category_name" property="productCategoryName" jdbcType="VARCHAR" />
+        <result column="parent_category_name" property="parentCategoryName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, coupon_id, product_category_id, product_category_name, parent_category_name
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from sms_coupon_product_category_relation
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from sms_coupon_product_category_relation
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.ssm.shop.pojo.SmsCouponCategory" >
+        insert into sms_coupon_product_category_relation (id, coupon_id, product_category_id, 
+            product_category_name, parent_category_name
+            )
+        values (#{id,jdbcType=BIGINT}, #{couponId,jdbcType=BIGINT}, #{productCategoryId,jdbcType=BIGINT}, 
+            #{productCategoryName,jdbcType=VARCHAR}, #{parentCategoryName,jdbcType=VARCHAR}
+            )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ssm.shop.pojo.SmsCouponCategory" >
+        insert into sms_coupon_product_category_relation
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="couponId != null" >
+                coupon_id,
+            </if>
+            <if test="productCategoryId != null" >
+                product_category_id,
+            </if>
+            <if test="productCategoryName != null" >
+                product_category_name,
+            </if>
+            <if test="parentCategoryName != null" >
+                parent_category_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="couponId != null" >
+                #{couponId,jdbcType=BIGINT},
+            </if>
+            <if test="productCategoryId != null" >
+                #{productCategoryId,jdbcType=BIGINT},
+            </if>
+            <if test="productCategoryName != null" >
+                #{productCategoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="parentCategoryName != null" >
+                #{parentCategoryName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ssm.shop.pojo.SmsCouponCategory" >
+        update sms_coupon_product_category_relation
+        <set >
+            <if test="couponId != null" >
+                coupon_id = #{couponId,jdbcType=BIGINT},
+            </if>
+            <if test="productCategoryId != null" >
+                product_category_id = #{productCategoryId,jdbcType=BIGINT},
+            </if>
+            <if test="productCategoryName != null" >
+                product_category_name = #{productCategoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="parentCategoryName != null" >
+                parent_category_name = #{parentCategoryName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ssm.shop.pojo.SmsCouponCategory" >
+        update sms_coupon_product_category_relation
+        set coupon_id = #{couponId,jdbcType=BIGINT},
+            product_category_id = #{productCategoryId,jdbcType=BIGINT},
+            product_category_name = #{productCategoryName,jdbcType=VARCHAR},
+            parent_category_name = #{parentCategoryName,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

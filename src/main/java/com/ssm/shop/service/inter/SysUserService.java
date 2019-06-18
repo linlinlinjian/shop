@@ -1,7 +1,9 @@
 package com.ssm.shop.service.inter;
 
+import com.ssm.shop.page.PageResult;
 import com.ssm.shop.pojo.SysUser;
 import com.ssm.shop.pojo.SysUserRole;
+import com.ssm.shop.pojo.basePojo.BTEntitiy;
 import com.ssm.shop.service.CurdService;
 
 import java.util.List;
@@ -29,5 +31,9 @@ public interface SysUserService extends CurdService<SysUser> {
 	 * @return
 	 */
 	List<SysUserRole> findUserRoles(Long userId);
+
+    PageResult findPages(SysUser user);
+
+	int selectCount(SysUser user);
 
 }

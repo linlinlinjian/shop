@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.shop.dao.SmsCouponMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ssm.shop.pojo.SmsCoupon" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="platform" property="platform" jdbcType="INTEGER" />
+        <result column="count" property="count" jdbcType="INTEGER" />
+        <result column="amount" property="amount" jdbcType="DECIMAL" />
+        <result column="per_limit" property="perLimit" jdbcType="INTEGER" />
+        <result column="min_point" property="minPoint" jdbcType="DECIMAL" />
+        <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+        <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+        <result column="use_type" property="useType" jdbcType="INTEGER" />
+        <result column="note" property="note" jdbcType="VARCHAR" />
+        <result column="publish_count" property="publishCount" jdbcType="INTEGER" />
+        <result column="use_count" property="useCount" jdbcType="INTEGER" />
+        <result column="receive_count" property="receiveCount" jdbcType="INTEGER" />
+        <result column="enable_time" property="enableTime" jdbcType="VARCHAR" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="member_level" property="memberLevel" jdbcType="INTEGER" />
+        <result column="cateProId" property="cateProId" jdbcType="BIGINT" />
+        <result column="cateProName" property="cateProName" jdbcType="BIGINT" />
+        <result column="cateParName" property="cateParName" jdbcType="VARCHAR" />
+        <result column="proId" property="proId" jdbcType="BIGINT" />
+        <result column="proName" property="proName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, type, name, platform, count, amount, per_limit, min_point, start_time, end_time, 
+        use_type, note, publish_count, use_count, receive_count, enable_time, code, member_level
+    </sql>
+
+    <select id="listSmsCouponByPage" resultMap="BaseResultMap">
+        select a.* ,b.id cateId,b.product_category_id cateProId, b.product_category_name cateProName,
+        b.parent_category_name cateParName,c.product_id proId,c.product_name proName
+        from sms_coupon a
+        left join sms_coupon_product_category_relation b on a.id=b.coupon_id
+        left join sms_coupon_product_relation c on a.id=c.coupon_id
+        where 1=1
+        <if test="name !=null and name !='' ">
+            and a.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="currentPage!=-1 and pageSize!=-1">
+            limit #{currentPage},#{pageSize}
+        </if>
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(1)
+        from sms_coupon a
+        where 1=1
+        <if test="name !=null and name !='' ">
+            and a.name like CONCAT('%',#{name},'%')
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from sms_coupon
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from sms_coupon
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.ssm.shop.pojo.SmsCoupon" >
+        insert into sms_coupon (id, type, name, 
+            platform, count, amount, 
+            per_limit, min_point, start_time, 
+            end_time, use_type, note, 
+            publish_count, use_count, receive_count, 
+            enable_time, code, member_level
+            )
+        values (#{id,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+            #{platform,jdbcType=INTEGER}, #{count,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, 
+            #{perLimit,jdbcType=INTEGER}, #{minPoint,jdbcType=DECIMAL}, #{startTime,jdbcType=VARCHAR}, 
+            #{endTime,jdbcType=VARCHAR}, #{useType,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, 
+            #{publishCount,jdbcType=INTEGER}, #{useCount,jdbcType=INTEGER}, #{receiveCount,jdbcType=INTEGER}, 
+            #{enableTime,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{memberLevel,jdbcType=INTEGER}
+            )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ssm.shop.pojo.SmsCoupon" >
+        insert into sms_coupon
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="platform != null" >
+                platform,
+            </if>
+            <if test="count != null" >
+                count,
+            </if>
+            <if test="amount != null" >
+                amount,
+            </if>
+            <if test="perLimit != null" >
+                per_limit,
+            </if>
+            <if test="minPoint != null" >
+                min_point,
+            </if>
+            <if test="startTime != null" >
+                start_time,
+            </if>
+            <if test="endTime != null" >
+                end_time,
+            </if>
+            <if test="useType != null" >
+                use_type,
+            </if>
+            <if test="note != null" >
+                note,
+            </if>
+            <if test="publishCount != null" >
+                publish_count,
+            </if>
+            <if test="useCount != null" >
+                use_count,
+            </if>
+            <if test="receiveCount != null" >
+                receive_count,
+            </if>
+            <if test="enableTime != null" >
+                enable_time,
+            </if>
+            <if test="code != null" >
+                code,
+            </if>
+            <if test="memberLevel != null" >
+                member_level,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null" >
+                #{platform,jdbcType=INTEGER},
+            </if>
+            <if test="count != null" >
+                #{count,jdbcType=INTEGER},
+            </if>
+            <if test="amount != null" >
+                #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="perLimit != null" >
+                #{perLimit,jdbcType=INTEGER},
+            </if>
+            <if test="minPoint != null" >
+                #{minPoint,jdbcType=DECIMAL},
+            </if>
+            <if test="startTime != null" >
+                #{startTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null" >
+                #{endTime,jdbcType=VARCHAR},
+            </if>
+            <if test="useType != null" >
+                #{useType,jdbcType=INTEGER},
+            </if>
+            <if test="note != null" >
+                #{note,jdbcType=VARCHAR},
+            </if>
+            <if test="publishCount != null" >
+                #{publishCount,jdbcType=INTEGER},
+            </if>
+            <if test="useCount != null" >
+                #{useCount,jdbcType=INTEGER},
+            </if>
+            <if test="receiveCount != null" >
+                #{receiveCount,jdbcType=INTEGER},
+            </if>
+            <if test="enableTime != null" >
+                #{enableTime,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null" >
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="memberLevel != null" >
+                #{memberLevel,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ssm.shop.pojo.SmsCoupon" >
+        update sms_coupon
+        <set >
+            <if test="type != null" >
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="platform != null" >
+                platform = #{platform,jdbcType=INTEGER},
+            </if>
+            <if test="count != null" >
+                count = #{count,jdbcType=INTEGER},
+            </if>
+            <if test="amount != null" >
+                amount = #{amount,jdbcType=DECIMAL},
+            </if>
+            <if test="perLimit != null" >
+                per_limit = #{perLimit,jdbcType=INTEGER},
+            </if>
+            <if test="minPoint != null" >
+                min_point = #{minPoint,jdbcType=DECIMAL},
+            </if>
+            <if test="startTime != null" >
+                start_time = #{startTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null" >
+                end_time = #{endTime,jdbcType=VARCHAR},
+            </if>
+            <if test="useType != null" >
+                use_type = #{useType,jdbcType=INTEGER},
+            </if>
+            <if test="note != null" >
+                note = #{note,jdbcType=VARCHAR},
+            </if>
+            <if test="publishCount != null" >
+                publish_count = #{publishCount,jdbcType=INTEGER},
+            </if>
+            <if test="useCount != null" >
+                use_count = #{useCount,jdbcType=INTEGER},
+            </if>
+            <if test="receiveCount != null" >
+                receive_count = #{receiveCount,jdbcType=INTEGER},
+            </if>
+            <if test="enableTime != null" >
+                enable_time = #{enableTime,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null" >
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="memberLevel != null" >
+                member_level = #{memberLevel,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ssm.shop.pojo.SmsCoupon" >
+        update sms_coupon
+        set type = #{type,jdbcType=INTEGER},
+            name = #{name,jdbcType=VARCHAR},
+            platform = #{platform,jdbcType=INTEGER},
+            count = #{count,jdbcType=INTEGER},
+            amount = #{amount,jdbcType=DECIMAL},
+            per_limit = #{perLimit,jdbcType=INTEGER},
+            min_point = #{minPoint,jdbcType=DECIMAL},
+            start_time = #{startTime,jdbcType=VARCHAR},
+            end_time = #{endTime,jdbcType=VARCHAR},
+            use_type = #{useType,jdbcType=INTEGER},
+            note = #{note,jdbcType=VARCHAR},
+            publish_count = #{publishCount,jdbcType=INTEGER},
+            use_count = #{useCount,jdbcType=INTEGER},
+            receive_count = #{receiveCount,jdbcType=INTEGER},
+            enable_time = #{enableTime,jdbcType=VARCHAR},
+            code = #{code,jdbcType=VARCHAR},
+            member_level = #{memberLevel,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

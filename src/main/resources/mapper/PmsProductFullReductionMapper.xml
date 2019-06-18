@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.shop.dao.PmsProductFullReductionMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ssm.shop.pojo.PmsProductFullReduction" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="product_id" property="productId" jdbcType="BIGINT" />
+        <result column="full_price" property="fullPrice" jdbcType="DECIMAL" />
+        <result column="reduce_price" property="reducePrice" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, product_id, full_price, reduce_price
+    </sql>
+
+    <select id="listPmsProductFullReductionByPage" resultMap="BaseResultMap">
+        select *
+        from pms_product_full_reduction
+        where 1=1
+        <if test="productId !=0">
+            and product_id=#{productId}
+        </if>
+        <if test="currentPage!=-1 and pageSize!=-1">
+            limit #{currentPage},#{pageSize}
+        </if>
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(1)
+        from pms_product_full_reduction
+        where 1=1
+        <if test="productId !=0">
+            and product_id=#{productId}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from pms_product_full_reduction
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from pms_product_full_reduction
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.ssm.shop.pojo.PmsProductFullReduction" >
+        insert into pms_product_full_reduction (id, product_id, full_price, 
+            reduce_price)
+        values (#{id,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, #{fullPrice,jdbcType=DECIMAL}, 
+            #{reducePrice,jdbcType=DECIMAL})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ssm.shop.pojo.PmsProductFullReduction" >
+        insert into pms_product_full_reduction
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="productId != null" >
+                product_id,
+            </if>
+            <if test="fullPrice != null" >
+                full_price,
+            </if>
+            <if test="reducePrice != null" >
+                reduce_price,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="productId != null" >
+                #{productId,jdbcType=BIGINT},
+            </if>
+            <if test="fullPrice != null" >
+                #{fullPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="reducePrice != null" >
+                #{reducePrice,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ssm.shop.pojo.PmsProductFullReduction" >
+        update pms_product_full_reduction
+        <set >
+            <if test="productId != null" >
+                product_id = #{productId,jdbcType=BIGINT},
+            </if>
+            <if test="fullPrice != null" >
+                full_price = #{fullPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="reducePrice != null" >
+                reduce_price = #{reducePrice,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ssm.shop.pojo.PmsProductFullReduction" >
+        update pms_product_full_reduction
+        set product_id = #{productId,jdbcType=BIGINT},
+            full_price = #{fullPrice,jdbcType=DECIMAL},
+            reduce_price = #{reducePrice,jdbcType=DECIMAL}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

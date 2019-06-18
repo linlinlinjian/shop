@@ -20,6 +20,8 @@ public class SysMenu extends BaseModel {
 
     private Byte delFlag;
 
+    private String showStatus;
+
     // 非数据库字段
     private String parentName;
     // 非数据库字段
@@ -114,5 +116,13 @@ public class SysMenu extends BaseModel {
 	public void setParentName(String parentName) {
 		this.parentName = parentName;
 	}
-	
+
+
+	public String getShowStatus() {
+		return showStatus;
+	}
+
+	public void setShowStatus(String showStatus) {
+		this.showStatus = showStatus;
+	}
 }

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.shop.dao.PmsProductLadderMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ssm.shop.pojo.PmsProductLadder" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="product_id" property="productId" jdbcType="BIGINT" />
+        <result column="count" property="count" jdbcType="INTEGER" />
+        <result column="discount" property="discount" jdbcType="DECIMAL" />
+        <result column="price" property="price" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, product_id, count, discount, price
+    </sql>
+
+    <select id="listPmsProductLadderByPage" resultMap="BaseResultMap">
+        select *
+        from pms_product_ladder
+        where 1=1
+        <if test="productId !=0">
+            and product_id=#{productId}
+        </if>
+        <if test="currentPage!=-1 and pageSize!=-1">
+            limit #{currentPage},#{pageSize}
+        </if>
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(1)
+        from pms_product_ladder
+        where 1=1
+        <if test="productId !=0">
+            and product_id=#{productId}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from pms_product_ladder
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from pms_product_ladder
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.ssm.shop.pojo.PmsProductLadder" >
+        insert into pms_product_ladder (id, product_id, count, 
+            discount, price)
+        values (#{id,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, #{count,jdbcType=INTEGER}, 
+            #{discount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ssm.shop.pojo.PmsProductLadder" >
+        insert into pms_product_ladder
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="productId != null" >
+                product_id,
+            </if>
+            <if test="count != null" >
+                count,
+            </if>
+            <if test="discount != null" >
+                discount,
+            </if>
+            <if test="price != null" >
+                price,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="productId != null" >
+                #{productId,jdbcType=BIGINT},
+            </if>
+            <if test="count != null" >
+                #{count,jdbcType=INTEGER},
+            </if>
+            <if test="discount != null" >
+                #{discount,jdbcType=DECIMAL},
+            </if>
+            <if test="price != null" >
+                #{price,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ssm.shop.pojo.PmsProductLadder" >
+        update pms_product_ladder
+        <set >
+            <if test="productId != null" >
+                product_id = #{productId,jdbcType=BIGINT},
+            </if>
+            <if test="count != null" >
+                count = #{count,jdbcType=INTEGER},
+            </if>
+            <if test="discount != null" >
+                discount = #{discount,jdbcType=DECIMAL},
+            </if>
+            <if test="price != null" >
+                price = #{price,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ssm.shop.pojo.PmsProductLadder" >
+        update pms_product_ladder
+        set product_id = #{productId,jdbcType=BIGINT},
+            count = #{count,jdbcType=INTEGER},
+            discount = #{discount,jdbcType=DECIMAL},
+            price = #{price,jdbcType=DECIMAL}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

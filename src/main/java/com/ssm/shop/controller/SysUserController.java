@@ -6,6 +6,7 @@ import com.ssm.shop.constants.SysConstants;
 import com.ssm.shop.http.HttpResult;
 import com.ssm.shop.page.PageRequest;
 import com.ssm.shop.pojo.SysUser;
+import com.ssm.shop.pojo.basePojo.BTEntitiy;
 import com.ssm.shop.service.inter.SysUserService;
 import com.ssm.shop.util.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,5 +97,11 @@ public class SysUserController {
 	public HttpResult findPage(@RequestBody PageRequest pageRequest) {
 		return HttpResult.ok(sysUserService.findPage(pageRequest));
 	}
+
+    @RequestMapping(value="/findList")
+    @ResponseBody
+    public HttpResult findList(SysUser user) {
+        return HttpResult.ok(sysUserService.findPages(user));
+    }
 	
 }

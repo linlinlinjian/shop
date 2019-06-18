@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.shop.dao.PmsProductAttributeMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ssm.shop.pojo.PmsProductAttribute" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="product_attribute_category_id" property="productAttributeCategoryId" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="select_type" property="selectType" jdbcType="INTEGER" />
+        <result column="input_type" property="inputType" jdbcType="INTEGER" />
+        <result column="input_list" property="inputList" jdbcType="VARCHAR" />
+        <result column="sort" property="sort" jdbcType="INTEGER" />
+        <result column="filter_type" property="filterType" jdbcType="INTEGER" />
+        <result column="search_type" property="searchType" jdbcType="INTEGER" />
+        <result column="related_status" property="relatedStatus" jdbcType="INTEGER" />
+        <result column="hand_add_status" property="handAddStatus" jdbcType="INTEGER" />
+        <result column="type" property="type" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, product_attribute_category_id, name, select_type, input_type, input_list, sort, 
+        filter_type, search_type, related_status, hand_add_status, type
+    </sql>
+
+    <select id="listPmsProductAttributeByPage" resultMap="BaseResultMap">
+        select * from pms_product_attribute
+        where 1=1
+        <if test="productAttributeCategoryId !=0">
+            and product_attribute_category_id=#{productAttributeCategoryId}
+        </if>
+        <if test="type !=null">
+            and type=#{type}
+        </if>
+        <if test="currentPage!=-1 and pageSize!=-1">
+            limit #{currentPage},#{pageSize}
+        </if>
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(1)
+        from pms_product_attribute
+        where 1=1
+        <if test="productAttributeCategoryId !=0">
+            and product_attribute_category_id=#{productAttributeCategoryId}
+        </if>
+        <if test="type !=null">
+            and type=#{type}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from pms_product_attribute
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from pms_product_attribute
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.ssm.shop.pojo.PmsProductAttribute" >
+        insert into pms_product_attribute (id, product_attribute_category_id, name, 
+            select_type, input_type, input_list, 
+            sort, filter_type, search_type, 
+            related_status, hand_add_status, type
+            )
+        values (#{id,jdbcType=BIGINT}, #{productAttributeCategoryId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+            #{selectType,jdbcType=INTEGER}, #{inputType,jdbcType=INTEGER}, #{inputList,jdbcType=VARCHAR}, 
+            #{sort,jdbcType=INTEGER}, #{filterType,jdbcType=INTEGER}, #{searchType,jdbcType=INTEGER}, 
+            #{relatedStatus,jdbcType=INTEGER}, #{handAddStatus,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}
+            )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ssm.shop.pojo.PmsProductAttribute" >
+        insert into pms_product_attribute
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="productAttributeCategoryId != null" >
+                product_attribute_category_id,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="selectType != null" >
+                select_type,
+            </if>
+            <if test="inputType != null" >
+                input_type,
+            </if>
+            <if test="inputList != null" >
+                input_list,
+            </if>
+            <if test="sort != null" >
+                sort,
+            </if>
+            <if test="filterType != null" >
+                filter_type,
+            </if>
+            <if test="searchType != null" >
+                search_type,
+            </if>
+            <if test="relatedStatus != null" >
+                related_status,
+            </if>
+            <if test="handAddStatus != null" >
+                hand_add_status,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="productAttributeCategoryId != null" >
+                #{productAttributeCategoryId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="selectType != null" >
+                #{selectType,jdbcType=INTEGER},
+            </if>
+            <if test="inputType != null" >
+                #{inputType,jdbcType=INTEGER},
+            </if>
+            <if test="inputList != null" >
+                #{inputList,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null" >
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="filterType != null" >
+                #{filterType,jdbcType=INTEGER},
+            </if>
+            <if test="searchType != null" >
+                #{searchType,jdbcType=INTEGER},
+            </if>
+            <if test="relatedStatus != null" >
+                #{relatedStatus,jdbcType=INTEGER},
+            </if>
+            <if test="handAddStatus != null" >
+                #{handAddStatus,jdbcType=INTEGER},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ssm.shop.pojo.PmsProductAttribute" >
+        update pms_product_attribute
+        <set >
+            <if test="productAttributeCategoryId != null" >
+                product_attribute_category_id = #{productAttributeCategoryId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="selectType != null" >
+                select_type = #{selectType,jdbcType=INTEGER},
+            </if>
+            <if test="inputType != null" >
+                input_type = #{inputType,jdbcType=INTEGER},
+            </if>
+            <if test="inputList != null" >
+                input_list = #{inputList,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null" >
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="filterType != null" >
+                filter_type = #{filterType,jdbcType=INTEGER},
+            </if>
+            <if test="searchType != null" >
+                search_type = #{searchType,jdbcType=INTEGER},
+            </if>
+            <if test="relatedStatus != null" >
+                related_status = #{relatedStatus,jdbcType=INTEGER},
+            </if>
+            <if test="handAddStatus != null" >
+                hand_add_status = #{handAddStatus,jdbcType=INTEGER},
+            </if>
+            <if test="type != null" >
+                type = #{type,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ssm.shop.pojo.PmsProductAttribute" >
+        update pms_product_attribute
+        set product_attribute_category_id = #{productAttributeCategoryId,jdbcType=BIGINT},
+            name = #{name,jdbcType=VARCHAR},
+            select_type = #{selectType,jdbcType=INTEGER},
+            input_type = #{inputType,jdbcType=INTEGER},
+            input_list = #{inputList,jdbcType=VARCHAR},
+            sort = #{sort,jdbcType=INTEGER},
+            filter_type = #{filterType,jdbcType=INTEGER},
+            search_type = #{searchType,jdbcType=INTEGER},
+            related_status = #{relatedStatus,jdbcType=INTEGER},
+            hand_add_status = #{handAddStatus,jdbcType=INTEGER},
+            type = #{type,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

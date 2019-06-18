@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.shop.dao.PmsMemberPriceMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ssm.shop.pojo.PmsMemberPrice" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="product_id" property="productId" jdbcType="BIGINT" />
+        <result column="member_level_id" property="memberLevelId" jdbcType="BIGINT" />
+        <result column="member_price" property="memberPrice" jdbcType="DECIMAL" />
+        <result column="member_level_name" property="memberLevelName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, product_id, member_level_id, member_price, member_level_name
+    </sql>
+
+    <select id="listPmsMemberPriceByPage" resultMap="BaseResultMap">
+        select * from pms_member_price
+        where 1=1
+        <if test="productId !=0">
+            and product_id=#{productId}
+        </if>
+        <if test="memberLevelId !=0 ">
+            and member_level_id=#{memberLevelId}
+        </if>
+        <if test="currentPage!=-1 and pageSize!=-1">
+            limit #{currentPage},#{pageSize}
+        </if>
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(1)
+        from pms_member_price
+        where 1=1
+        <if test="productId !=0">
+            and product_id=#{productId}
+        </if>
+        <if test="memberLevelId !=0 ">
+            and member_level_id=#{memberLevelId}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from pms_member_price
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from pms_member_price
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.ssm.shop.pojo.PmsMemberPrice" >
+        insert into pms_member_price (id, product_id, member_level_id, 
+            member_price, member_level_name)
+        values (#{id,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, #{memberLevelId,jdbcType=BIGINT}, 
+            #{memberPrice,jdbcType=DECIMAL}, #{memberLevelName,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ssm.shop.pojo.PmsMemberPrice" >
+        insert into pms_member_price
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="productId != null" >
+                product_id,
+            </if>
+            <if test="memberLevelId != null" >
+                member_level_id,
+            </if>
+            <if test="memberPrice != null" >
+                member_price,
+            </if>
+            <if test="memberLevelName != null" >
+                member_level_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="productId != null" >
+                #{productId,jdbcType=BIGINT},
+            </if>
+            <if test="memberLevelId != null" >
+                #{memberLevelId,jdbcType=BIGINT},
+            </if>
+            <if test="memberPrice != null" >
+                #{memberPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="memberLevelName != null" >
+                #{memberLevelName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ssm.shop.pojo.PmsMemberPrice" >
+        update pms_member_price
+        <set >
+            <if test="productId != null" >
+                product_id = #{productId,jdbcType=BIGINT},
+            </if>
+            <if test="memberLevelId != null" >
+                member_level_id = #{memberLevelId,jdbcType=BIGINT},
+            </if>
+            <if test="memberPrice != null" >
+                member_price = #{memberPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="memberLevelName != null" >
+                member_level_name = #{memberLevelName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ssm.shop.pojo.PmsMemberPrice" >
+        update pms_member_price
+        set product_id = #{productId,jdbcType=BIGINT},
+            member_level_id = #{memberLevelId,jdbcType=BIGINT},
+            member_price = #{memberPrice,jdbcType=DECIMAL},
+            member_level_name = #{memberLevelName,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

@@ -15,10 +15,11 @@
     <result column="last_update_by" jdbcType="BIGINT" property="lastUpdateBy" />
     <result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
     <result column="del_flag" jdbcType="TINYINT" property="delFlag" />
+      <result column="show_status" jdbcType="VARCHAR" property="showStatus" />
   </resultMap>
   <sql id="Base_Column_List">
     id, parent_id, name, url, perms, type, icon, order_num, create_by, create_time, 
-    last_update_by, last_update_time, del_flag
+    last_update_by, last_update_time, del_flag,show_status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -34,12 +35,13 @@
     insert into sys_menu (id, parent_id, name, 
       url, perms, type, icon, 
       order_num, create_by, create_time, 
-      last_update_by, last_update_time, del_flag
+      last_update_by, last_update_time, del_flag,show_status
       )
     values (#{id,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
       #{url,jdbcType=VARCHAR}, #{perms,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, 
       #{orderNum,jdbcType=INTEGER}, #{createBy,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{lastUpdateBy,jdbcType=BIGINT}, #{lastUpdateTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=TINYINT}
+      #{lastUpdateBy,jdbcType=BIGINT}, #{lastUpdateTime,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=TINYINT},
+            #{showStatus,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.ssm.shop.pojo.SysMenu">
@@ -84,6 +86,9 @@
       <if test="delFlag != null">
         del_flag,
       </if>
+        <if test="showStatus !=null">
+            show_status
+        </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -125,6 +130,9 @@
       <if test="delFlag != null">
         #{delFlag,jdbcType=TINYINT},
       </if>
+        <if test="showStatus != null">
+            #{showStatus,jdbcType=VARCHAR},
+        </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.ssm.shop.pojo.SysMenu">
@@ -166,6 +174,9 @@
       <if test="delFlag != null">
         del_flag = #{delFlag,jdbcType=TINYINT},
       </if>
+        <if test="showStatus != null">
+            show_status = #{showStatus,jdbcType=VARCHAR},
+        </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -182,7 +193,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       last_update_by = #{lastUpdateBy,jdbcType=BIGINT},
       last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
-      del_flag = #{delFlag,jdbcType=TINYINT}
+      del_flag = #{delFlag,jdbcType=TINYINT},
+        show_status =#{showStatus,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="findAll"  resultMap="BaseResultMap">

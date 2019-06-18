@@ -1,5 +1,6 @@
 package com.ssm.shop.service.inter;
 
+import com.ssm.shop.page.PageResult;
 import com.ssm.shop.pojo.SysDept;
 import com.ssm.shop.service.CurdService;
 
@@ -18,5 +19,9 @@ public interface SysDeptService extends CurdService<SysDept> {
 	 * @param
 	 * @return
 	 */
-	List<SysDept> findTree();
+	PageResult findTree(SysDept record);
+
+	PageResult findAll(SysDept record);
+
+	int selectCount(SysDept record);
 }

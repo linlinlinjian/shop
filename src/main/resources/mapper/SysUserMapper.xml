@@ -186,8 +186,31 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="findPage" resultMap="BaseResultMap">
-    select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName from sys_user u
+    select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName
+    from sys_user u
   </select>
+
+  <select id="findPages" resultMap="BaseResultMap">
+    select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName
+    from sys_user u
+    where 1=1
+    <if test="name !=null and name !='' ">
+      and u.name = #{name}
+    </if>
+    <if test="currentPage!=-1 and pageSize!=-1">
+      limit #{currentPage},#{pageSize}
+    </if>
+  </select>
+
+  <select id="selectCount" resultType="int">
+    select count(1)
+    from sys_user u
+    where 1=1
+    <if test="name !=null and name !='' ">
+      and u.name = #{name}
+    </if>
+ </select>
+
   <select id="findByName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select u.*, (select d.name from sys_dept d where d.id = u.dept_id) deptName from sys_user u
     where u.name = #{name,jdbcType=VARCHAR}

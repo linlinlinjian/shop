@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.shop.dao.PmsProductCategoryMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ssm.shop.pojo.PmsProductCategory" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="level" property="level" jdbcType="INTEGER" />
+        <result column="product_count" property="productCount" jdbcType="INTEGER" />
+        <result column="product_unit" property="productUnit" jdbcType="VARCHAR" />
+        <result column="nav_status" property="navStatus" jdbcType="INTEGER" />
+        <result column="show_status" property="showStatus" jdbcType="INTEGER" />
+        <result column="sort" property="sort" jdbcType="INTEGER" />
+        <result column="icon" property="icon" jdbcType="VARCHAR" />
+        <result column="keywords" property="keywords" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="LONGVARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, parent_id, name, level, product_count, product_unit, nav_status, show_status, 
+        sort, icon, keywords, description
+    </sql>
+
+    <select id="listPmsProductCategoryByPage" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include>
+        from pms_product_category
+        <if test="level !=null and level !='' ">
+            and level=#{level}
+        </if>
+        <if test="name !=null and name !=''">
+            and name like CONCAT('%',CONCAT(#{name}),'%')
+        </if>
+<!--        <if test="currentPage!=-1 and pageSize!=-1">-->
+<!--            limit #{currentPage},#{pageSize}-->
+<!--        </if>-->
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(1)
+        from pms_product_category
+        where 1=1
+        <if test="level !=null and level !='' ">
+            and level=#{level}
+        </if>
+        <if test="name !=null and name !=''">
+            and name like CONCAT('%',CONCAT(#{name}),'%')
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from pms_product_category
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from pms_product_category
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.ssm.shop.pojo.PmsProductCategory" >
+        insert into pms_product_category (id, parent_id, name, 
+            level, product_count, product_unit, 
+            nav_status, show_status, sort, 
+            icon, keywords, description
+            )
+        values (#{id,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+            #{level,jdbcType=INTEGER}, #{productCount,jdbcType=INTEGER}, #{productUnit,jdbcType=VARCHAR}, 
+            #{navStatus,jdbcType=INTEGER}, #{showStatus,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, 
+            #{icon,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR}
+            )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ssm.shop.pojo.PmsProductCategory" >
+        insert into pms_product_category
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="parentId != null" >
+                parent_id,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="level != null" >
+                level,
+            </if>
+            <if test="productCount != null" >
+                product_count,
+            </if>
+            <if test="productUnit != null" >
+                product_unit,
+            </if>
+            <if test="navStatus != null" >
+                nav_status,
+            </if>
+            <if test="showStatus != null" >
+                show_status,
+            </if>
+            <if test="sort != null" >
+                sort,
+            </if>
+            <if test="icon != null" >
+                icon,
+            </if>
+            <if test="keywords != null" >
+                keywords,
+            </if>
+            <if test="description != null" >
+                description,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null" >
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="level != null" >
+                #{level,jdbcType=INTEGER},
+            </if>
+            <if test="productCount != null" >
+                #{productCount,jdbcType=INTEGER},
+            </if>
+            <if test="productUnit != null" >
+                #{productUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="navStatus != null" >
+                #{navStatus,jdbcType=INTEGER},
+            </if>
+            <if test="showStatus != null" >
+                #{showStatus,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null" >
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="icon != null" >
+                #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="keywords != null" >
+                #{keywords,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                #{description,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ssm.shop.pojo.PmsProductCategory" >
+        update pms_product_category
+        <set >
+            <if test="parentId != null" >
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="level != null" >
+                level = #{level,jdbcType=INTEGER},
+            </if>
+            <if test="productCount != null" >
+                product_count = #{productCount,jdbcType=INTEGER},
+            </if>
+            <if test="productUnit != null" >
+                product_unit = #{productUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="navStatus != null" >
+                nav_status = #{navStatus,jdbcType=INTEGER},
+            </if>
+            <if test="showStatus != null" >
+                show_status = #{showStatus,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null" >
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="icon != null" >
+                icon = #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="keywords != null" >
+                keywords = #{keywords,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null" >
+                description = #{description,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ssm.shop.pojo.PmsProductCategory" >
+        update pms_product_category
+        set parent_id = #{parentId,jdbcType=BIGINT},
+            name = #{name,jdbcType=VARCHAR},
+            level = #{level,jdbcType=INTEGER},
+            product_count = #{productCount,jdbcType=INTEGER},
+            product_unit = #{productUnit,jdbcType=VARCHAR},
+            nav_status = #{navStatus,jdbcType=INTEGER},
+            show_status = #{showStatus,jdbcType=INTEGER},
+            sort = #{sort,jdbcType=INTEGER},
+            icon = #{icon,jdbcType=VARCHAR},
+            keywords = #{keywords,jdbcType=VARCHAR},
+            description = #{description,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

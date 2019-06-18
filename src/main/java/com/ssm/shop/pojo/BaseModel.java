@@ -19,6 +19,10 @@ public class BaseModel {
 
     private Date lastUpdateTime;
 
+	private int currentPage;//传参为开始的页数
+
+	private int pageSize;//传参为页面所用条数
+
 	public Long getId() {
 		return id;
 	}
@@ -58,5 +62,20 @@ public class BaseModel {
 	public void setLastUpdateTime(Date lastUpdateTime) {
 		this.lastUpdateTime = lastUpdateTime;
 	}
-    
+
+	public int getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
 }

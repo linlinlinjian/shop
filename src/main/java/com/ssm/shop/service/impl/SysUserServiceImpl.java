@@ -16,6 +16,7 @@ import com.ssm.shop.pojo.SysMenu;
 import com.ssm.shop.pojo.SysRole;
 import com.ssm.shop.pojo.SysUser;
 import com.ssm.shop.pojo.SysUserRole;
+import com.ssm.shop.pojo.basePojo.BTEntitiy;
 import com.ssm.shop.service.inter.SysMenuService;
 import com.ssm.shop.service.inter.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,5 +165,18 @@ public class SysUserServiceImpl  implements SysUserService {
 	@Override
 	public List<SysUserRole> findUserRoles(Long userId) {
 		return sysUserRoleMapper.findUserRoles(userId);
+	}
+
+	@Override
+	public PageResult findPages(SysUser user) {
+        int total=sysUserMapper.selectCount(user);
+		user.setCurrentPage((user.getCurrentPage()-1)*user.getPageSize());
+		List<SysUser> rows = sysUserMapper.findPages(user);
+		return new PageResult(user.getCurrentPage(),user.getPageSize(),total,rows);
+	}
+
+	@Override
+	public int selectCount(SysUser user) {
+		return sysUserMapper.selectCount(user);
 	}
 }

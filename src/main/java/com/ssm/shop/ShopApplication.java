@@ -8,6 +8,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @SpringBootApplication
 @ServletComponentScan
@@ -18,7 +19,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class ShopApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(ShopApplication.class, args);
     }
 
+//    @RequestMapping({"/"})
+//    public String redirect(){
+//        return "redirect:http://129.28.172.154:8080/builder/client/index.html";
+//    }
 }

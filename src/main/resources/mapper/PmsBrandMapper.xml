@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ssm.shop.dao.PmsBrandMapper" >
+
+    <resultMap id="BaseResultMap" type="com.ssm.shop.pojo.PmsBrand" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="first_letter" property="firstLetter" jdbcType="VARCHAR" />
+        <result column="sort" property="sort" jdbcType="INTEGER" />
+        <result column="factory_status" property="factoryStatus" jdbcType="INTEGER" />
+        <result column="show_status" property="showStatus" jdbcType="INTEGER" />
+        <result column="product_count" property="productCount" jdbcType="INTEGER" />
+        <result column="product_comment_count" property="productCommentCount" jdbcType="INTEGER" />
+        <result column="logo" property="logo" jdbcType="VARCHAR" />
+        <result column="big_pic" property="bigPic" jdbcType="VARCHAR" />
+        <result column="brand_story" property="brandStory" jdbcType="LONGVARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, name, first_letter, sort, factory_status, show_status, product_count, product_comment_count, 
+        logo, big_pic, brand_story
+    </sql>
+
+    <select id="listPmsBrandByPage" resultMap="BaseResultMap">
+
+        select
+            <include refid="Base_Column_List"></include>
+        from pms_brand
+        <if test="currentPage!=-1 and pageSize!=-1">
+            limit #{currentPage},#{pageSize}
+        </if>
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(1)
+        from pms_brand
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from pms_brand
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from pms_brand
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.ssm.shop.pojo.PmsBrand" >
+        insert into pms_brand (id, name, first_letter, 
+            sort, factory_status, show_status, 
+            product_count, product_comment_count, logo, 
+            big_pic, brand_story)
+        values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{firstLetter,jdbcType=VARCHAR}, 
+            #{sort,jdbcType=INTEGER}, #{factoryStatus,jdbcType=INTEGER}, #{showStatus,jdbcType=INTEGER}, 
+            #{productCount,jdbcType=INTEGER}, #{productCommentCount,jdbcType=INTEGER}, #{logo,jdbcType=VARCHAR}, 
+            #{bigPic,jdbcType=VARCHAR}, #{brandStory,jdbcType=LONGVARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.ssm.shop.pojo.PmsBrand" >
+        insert into pms_brand
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="firstLetter != null" >
+                first_letter,
+            </if>
+            <if test="sort != null" >
+                sort,
+            </if>
+            <if test="factoryStatus != null" >
+                factory_status,
+            </if>
+            <if test="showStatus != null" >
+                show_status,
+            </if>
+            <if test="productCount != null" >
+                product_count,
+            </if>
+            <if test="productCommentCount != null" >
+                product_comment_count,
+            </if>
+            <if test="logo != null" >
+                logo,
+            </if>
+            <if test="bigPic != null" >
+                big_pic,
+            </if>
+            <if test="brandStory != null" >
+                brand_story,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="firstLetter != null" >
+                #{firstLetter,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null" >
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="factoryStatus != null" >
+                #{factoryStatus,jdbcType=INTEGER},
+            </if>
+            <if test="showStatus != null" >
+                #{showStatus,jdbcType=INTEGER},
+            </if>
+            <if test="productCount != null" >
+                #{productCount,jdbcType=INTEGER},
+            </if>
+            <if test="productCommentCount != null" >
+                #{productCommentCount,jdbcType=INTEGER},
+            </if>
+            <if test="logo != null" >
+                #{logo,jdbcType=VARCHAR},
+            </if>
+            <if test="bigPic != null" >
+                #{bigPic,jdbcType=VARCHAR},
+            </if>
+            <if test="brandStory != null" >
+                #{brandStory,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.ssm.shop.pojo.PmsBrand" >
+        update pms_brand
+        <set >
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="firstLetter != null" >
+                first_letter = #{firstLetter,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null" >
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="factoryStatus != null" >
+                factory_status = #{factoryStatus,jdbcType=INTEGER},
+            </if>
+            <if test="showStatus != null" >
+                show_status = #{showStatus,jdbcType=INTEGER},
+            </if>
+            <if test="productCount != null" >
+                product_count = #{productCount,jdbcType=INTEGER},
+            </if>
+            <if test="productCommentCount != null" >
+                product_comment_count = #{productCommentCount,jdbcType=INTEGER},
+            </if>
+            <if test="logo != null" >
+                logo = #{logo,jdbcType=VARCHAR},
+            </if>
+            <if test="bigPic != null" >
+                big_pic = #{bigPic,jdbcType=VARCHAR},
+            </if>
+            <if test="brandStory != null" >
+                brand_story = #{brandStory,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.ssm.shop.pojo.PmsBrand" >
+        update pms_brand
+        set name = #{name,jdbcType=VARCHAR},
+            first_letter = #{firstLetter,jdbcType=VARCHAR},
+            sort = #{sort,jdbcType=INTEGER},
+            factory_status = #{factoryStatus,jdbcType=INTEGER},
+            show_status = #{showStatus,jdbcType=INTEGER},
+            product_count = #{productCount,jdbcType=INTEGER},
+            product_comment_count = #{productCommentCount,jdbcType=INTEGER},
+            logo = #{logo,jdbcType=VARCHAR},
+            big_pic = #{bigPic,jdbcType=VARCHAR},
+            brand_story = #{brandStory,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

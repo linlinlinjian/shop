@@ -143,7 +143,15 @@
     select 
     <include refid="Base_Column_List" />
     from sys_dept
+    <if test="currentPage!=-1 and pageSize!=-1">
+      limit #{currentPage},#{pageSize}
+    </if>
   </select>
+
+  <select id="selectCount" resultType="int" >
+    select count(1) from sys_dept where parent_id is null
+  </select>
+
   <select id="findPage" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

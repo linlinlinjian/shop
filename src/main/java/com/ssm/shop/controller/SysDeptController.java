@@ -36,9 +36,9 @@ public class SysDeptController {
 		return HttpResult.ok(sysDeptService.delete(records));
 	}
 
-	@GetMapping(value="/findTree")
-	public HttpResult findTree() {
-		return HttpResult.ok(sysDeptService.findTree());
+	@RequestMapping(value="/findTree")
+	public HttpResult findTree(SysDept dept) {
+		return HttpResult.ok(sysDeptService.findTree(dept));
 	}
 
 }

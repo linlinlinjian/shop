@@ -19,27 +19,27 @@ public class BTEntitiy implements Serializable {
 	public BTEntitiy() {
 	}
 
-	public BTEntitiy(int currentPage,int total,List<?> rows) {
+	public BTEntitiy(int currentPage,int totalSize,List<?> rows) {
 		this.currentPage = currentPage;
 		this.numPerPage = DEFAULT_NUM_PER_PAGE;
-		this.total = total;
-		this.totalPage = (total + DEFAULT_NUM_PER_PAGE - 1) / DEFAULT_NUM_PER_PAGE;
+		this.totalSize = totalSize;
+		this.totalPage = (totalSize + DEFAULT_NUM_PER_PAGE - 1) / DEFAULT_NUM_PER_PAGE;
 		this.rows = rows;
 	}
-	public BTEntitiy(int currentPage,int total,List<?> rows,String hasNextPage) {
+	public BTEntitiy(int currentPage,int totalSize,List<?> rows,String hasNextPage) {
 		this.currentPage = currentPage;
 		this.numPerPage = DEFAULT_NUM_PER_PAGE;
-		this.total = total;
-		this.totalPage = (total + DEFAULT_NUM_PER_PAGE - 1) / DEFAULT_NUM_PER_PAGE;
+		this.totalSize = totalSize;
+		this.totalPage = (totalSize + DEFAULT_NUM_PER_PAGE - 1) / DEFAULT_NUM_PER_PAGE;
 		this.rows = rows;
 		this.hasNextPage = hasNextPage;
 	}
 
-	public BTEntitiy(int currentPage,int total,List<?> rows,int page) {
+	public BTEntitiy(int currentPage,int totalSize,List<?> rows,int page) {
 		this.currentPage = currentPage;
 		this.numPerPage = page;
-		this.total = total;
-		this.totalPage = (total + page - 1) / page;
+		this.totalSize = totalSize;
+		this.totalPage = (totalSize + page - 1) / page;
 		this.rows = rows;
 	}
 	
@@ -49,7 +49,7 @@ public class BTEntitiy implements Serializable {
     
     private int totalPage; // 总页�?
     
-	private int total;
+	private int totalSize;
 	
 	private String hasNextPage;
 
@@ -63,12 +63,12 @@ public class BTEntitiy implements Serializable {
 		this.rows = rows;
 	}
 
-	public int getTotal() {
-		return total;
+	public int getTotalSize() {
+		return totalSize;
 	}
 
-	public void setTotal(int total) {
-		this.total = total;
+	public void setTotalSize(int totalSize) {
+		this.totalSize = totalSize;
 	}
 
 	public int getCurrentPage() {
