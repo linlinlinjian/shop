@@ -253,7 +253,7 @@
         var params=new URLSearchParams();
         params.append("currentPage",1);
         params.append("pageSize",100);
-        this.$axios.post("http://129.28.172.154:8080/pmsProductAttributeCategory/listPmsProductAttributeCategoryByPage",params).then(response => {
+        this.$axios.post("http://localhost:8080/pmsProductAttributeCategory/listPmsProductAttributeCategoryByPage",params).then(response => {
           this.productAttributeCategoryOptions = [];
           let list = response.data.data.content;
           for (let i = 0; i < list.length; i++) {
@@ -267,7 +267,7 @@
        params.append("pageSize",100);
 			 params.append("type",type);
 			 params.append("productAttributeCategoryId",cid);
-       this.$axios.post("http://129.28.172.154:8080/pmsProductAttribute/listPmsProductAttributeByPage", params).then(response => {
+       this.$axios.post("http://localhost:8080/pmsProductAttribute/listPmsProductAttributeByPage", params).then(response => {
           let list = response.data.data.content;
           if (type === 0) {
             this.selectProductAttr = [];

@@ -125,7 +125,7 @@
 				params.append("pageSize",this.listQuery.pageSize);
 				params.append("productAttributeCategoryId",this.$route.query.cid);
 				params.append("type",this.listQuery.type);
-        this.$axios.post("http://129.28.172.154:8080/pmsProductAttribute/listPmsProductAttributeByPage",params).then(response => {
+        this.$axios.post("http://localhost:8080/pmsProductAttribute/listPmsProductAttributeByPage",params).then(response => {
           this.listLoading = false;
           this.list = response.data.data.content;
           this.total = response.data.data.totalSize;
@@ -181,7 +181,7 @@
         }).then(() => {
           let data = new URLSearchParams();
           data.append("ids", ids);
-         this.$axios.post("http://129.28.172.154:8080/pmsProductAttribute/deletePmsProductAttributeBy",data).then(response => {
+         this.$axios.post("http://localhost:8080/pmsProductAttribute/deletePmsProductAttributeBy",data).then(response => {
             this.$message({
               message: '删除成功',
               type: 'success',

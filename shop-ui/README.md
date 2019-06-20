@@ -206,7 +206,7 @@ kitty-ui
 
 3. 启动系统
 
-    执行 npm run dev 命令，启动项目，通过 http://129.28.172.154:8090 访问。
+    执行 npm run dev 命令，启动项目，通过 http://localhost:8090 访问。
 
 4. 项目打包
 

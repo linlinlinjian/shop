@@ -9,7 +9,7 @@ function login(){
 	var password=$("#login_pwd").val();
 	$.ajax({
 		type: "post",
-		url: "http://129.28.172.154:8080/umsMember/login",
+		url: "http://localhost:8080/umsMember/login",
 		data: {
 			"username": username,
 			"password": password

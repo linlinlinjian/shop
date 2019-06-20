@@ -131,7 +131,7 @@
       },
       getProductCateList() {
 				var params = new URLSearchParams();
-        this.$axios.post("http://129.28.172.154:8080/pmsProductCategory/listPmsProductCategoryByPage",params).then(response => {
+        this.$axios.post("http://localhost:8080/pmsProductCategory/listPmsProductCategoryByPage",params).then(response => {
           let list = response.data.data.content;
           this.productCateOptions = [];
           for (let i = 0; i < list.length; i++) {
@@ -149,7 +149,7 @@
         var params = new URLSearchParams();
 				params.append("currentPage",1);
 				params.append("pageSize",100);
-        this.$axios.post("http://129.28.172.154:8080/pmsBrand/listPmsBrandByPage",params).then(response => {
+        this.$axios.post("http://localhost:8080/pmsBrand/listPmsBrandByPage",params).then(response => {
           this.brandOptions = [];
           let brandList = response.data.data.content;
           for (let i = 0; i < brandList.length; i++) {

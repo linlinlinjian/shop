@@ -343,8 +343,8 @@ export default {
 			params.append("currentPage",this.pageRequest.pageNum);
 			params.append("pageSize",this.pageRequest.pageSize);
 			//params.append("name",this.filters.name);
-			//this.$axios.post("http://129.28.172.154:8080/dept/findTree",params)
-			this.$axios.post("http://129.28.172.154:8080/pmsProduct/listPmsProductByPage",params).then((res) => {
+			//this.$axios.post("http://localhost:8080/dept/findTree",params)
+			this.$axios.post("http://localhost:8080/pmsProduct/listPmsProductByPage",params).then((res) => {
 				console.log(res);
 				this.tableTreeDdata = res.data.data.content
 				this.totalSize=res.data.data.totalSize;
@@ -362,7 +362,7 @@ export default {
 		  params.append("productId",row.id);
 		  params.append("currentPage",1);
 		  params.append("pageSize",100);
-		  this.$axios.post("http://129.28.172.154:8080/pmsSkuStock/listPmsSkuStockByPage",params).then(response=>{
+		  this.$axios.post("http://localhost:8080/pmsSkuStock/listPmsSkuStockByPage",params).then(response=>{
 		    console.log(response);
 		    this.editSkuInfo.stockList=response.data.data.content;
 		  });
@@ -371,7 +371,7 @@ export default {
 			parames.append("pageSize",-1);
 			parames.append("productAttributeCategoryId",row.productAttributeCategoryId);
 			parames.append("type",0);
-			this.$axios.post("http://129.28.172.154:8080/pmsProductAttribute/listPmsProductAttributeByPage",params).then(response=>{
+			this.$axios.post("http://localhost:8080/pmsProductAttribute/listPmsProductAttributeByPage",params).then(response=>{
 		    this.editSkuInfo.productAttr=response.data.data.content;
 		  });
 		},

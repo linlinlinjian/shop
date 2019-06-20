@@ -165,7 +165,7 @@
           }else{
 						console.log(defaultProductParam);
 						console.log(defaultProductParam.toString());
-						this.$axios.post("http://129.28.172.154:8080/pmsProduct/insertPmsProduct",this.productParam).then(response=>{
+						this.$axios.post("http://localhost:8080/pmsProduct/insertPmsProduct",this.productParam).then(response=>{
               this.$message({
                 type: 'success',
                 message: '提交成功',

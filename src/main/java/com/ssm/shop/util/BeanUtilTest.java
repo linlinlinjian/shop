@@ -13,7 +13,7 @@ import com.ssm.shop.pojo.*;
 public class BeanUtilTest {
 
 	public static void main(String[] args) throws Exception{
-		BeanUtil.createCodeTool(SmsCoupon.class);
+		BeanUtil.createCodeTool(PmsBanner.class);
 
 	}
 	

@@ -172,8 +172,8 @@
         params.append("currentPage", this.pageRequest.pageNum);
         params.append("pageSize", this.pageRequest.pageSize);
         params.append("name", this.filters.name);
-        //this.$axios.post("http://129.28.172.154:8080/dept/findTree",params)
-        this.$axios.post("http://129.28.172.154:8080/pmsBrand/listPmsBrandByPage", params).then((res) => {
+        //this.$axios.post("http://localhost:8080/dept/findTree",params)
+        this.$axios.post("http://localhost:8080/pmsBrand/listPmsBrandByPage", params).then((res) => {
           console.log(res);
           this.tableTreeDdata = res.data.data.content
           this.totalSize = res.data.data.totalSize;

@@ -214,7 +214,7 @@
           var params = new URLSearchParams();
           params.append("currentPage",-1);
           params.append("pageSize",-1);
-          this.$axios.post("http://129.28.172.154:8080/pmsProduct/listPmsProductByPage",params).then((res) => {
+          this.$axios.post("http://localhost:8080/pmsProduct/listPmsProductByPage",params).then((res) => {
             this.productLists = res.data.data.content
           })
         },
@@ -222,7 +222,7 @@
           var params = new URLSearchParams();
           params.append("currentPage",-1);
           params.append("pageSize",-1);
-          this.$axios.post("http://129.28.172.154:8080/pmsProductCategory/listPmsProductCategoryByPage",params).then((res) => {
+          this.$axios.post("http://localhost:8080/pmsProductCategory/listPmsProductCategoryByPage",params).then((res) => {
             let list = res.data.data.content;
             this.productCateOptions = [];
             for (let i = 0; i < list.length; i++) {
@@ -281,7 +281,7 @@
         },
         requestData(){
          var params=this.checkParam();
-          this.$axios.post("http://129.28.172.154:8080/smsCoupon/listSmsCouponByPage", params).then(response => {
+          this.$axios.post("http://localhost:8080/smsCoupon/listSmsCouponByPage", params).then(response => {
             console.log(response)
               this.tableData=response.data.data.content;
               this.total=response.data.data.totalSize;
@@ -324,7 +324,7 @@
         handleDelete(index,row){
           var params=new URLSearchParams();
           params.append("id",row.id);
-          this.$axios.post("http://129.28.172.154:8080/smsCoupon/deleteSmsCoupon", params).then(response => {
+          this.$axios.post("http://localhost:8080/smsCoupon/deleteSmsCoupon", params).then(response => {
             if(response.data.code==200){
               this.$message({
                 message: ''+response.data.msg+'',
@@ -347,7 +347,7 @@
         submitForm(){
           let params = Object.assign({}, this.editForm);
           if(this.isEdit==true){
-            this.$axios.post("http://129.28.172.154:8080/smsCoupon/updateSmsCoupon", params).then(response => {
+            this.$axios.post("http://localhost:8080/smsCoupon/updateSmsCoupon", params).then(response => {
               if(response.data.code==200){
                 this.$message({
                   message: ''+response.data.msg+'',
@@ -361,7 +361,7 @@
 
             });
           }else{
-            this.$axios.post("http://129.28.172.154:8080/smsCoupon/insertSmsCoupon", params).then(response => {
+            this.$axios.post("http://localhost:8080/smsCoupon/insertSmsCoupon", params).then(response => {
               if(response.data.code==200){
                 this.$message({
                   message: ''+response.data.msg+'',

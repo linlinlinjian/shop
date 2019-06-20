@@ -149,7 +149,7 @@ export default {
 		  	var params = new URLSearchParams();
 			params.append("currentPage",this.pageRequest.pageNum);
 			params.append("rows",this.pageRequest.pageSize);
-		  	this.$axios.post("http://129.28.172.154:8080/user/findList",params).then((res) => {
+		  	this.$axios.post("http://localhost:8080/user/findList",params).then((res) => {
 				this.tableData=res.data.rows;
 				this.total=res.data.total;
 		  		//this.pageResult = res.data

@@ -6,18 +6,23 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+/**
+ * 访问静态资源
+ */
 @Configuration
 public class DefaultView extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/","classpath:/builder/","classpath:/builder/static/","classpath:/builder/cilent/","file:./target/builder/");
+        registry.addResourceHandler("/builder/**").addResourceLocations("classpath:/static/","classpath:/builder/","classpath:/builder/static/","classpath:/builder/client/","file:./target/builder/");
+        registry.addResourceHandler("/img/**").addResourceLocations("file:D:/images/");
+
         super.addResourceHandlers(registry);
     }
 
     @Override
     public void addViewControllers( ViewControllerRegistry registry ) {
-        registry.addViewController( "/" ).setViewName( "redirect:http://129.28.172.154:8080/builder/client/index.html" );
+        registry.addViewController( "/" ).setViewName( "redirect:http://localhost:8080/builder/client/index.html" );
         registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
         super.addViewControllers( registry );
     }

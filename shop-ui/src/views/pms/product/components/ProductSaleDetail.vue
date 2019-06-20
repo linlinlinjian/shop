@@ -195,7 +195,7 @@
 				// params.append("defaultStatus",0);
 				params.append("currentPage",-1);
 				params.append("pageSize",-1);
-				this.$axios.post("http://129.28.172.154:8080/umsMemberLevel/listUmsMemberLevelByPage",params).then(response => {
+				this.$axios.post("http://localhost:8080/umsMemberLevel/listUmsMemberLevelByPage",params).then(response => {
           let memberPriceList = [];
           for (let i = 0; i < response.data.data.content.length; i++) {
             let item = response.data.data.content[i];

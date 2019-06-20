@@ -133,8 +133,8 @@ export default {
 			var params = new URLSearchParams();
 			params.append("currentPage",this.pageRequest.pageNum);
 			params.append("pageSize",this.pageRequest.pageSize);
-			//this.$axios.post("http://129.28.172.154:8080/dept/findTree",params)
-			this.$axios.post("http://129.28.172.154:8080/dept/findTree",params).then((res) => {
+			//this.$axios.post("http://localhost:8080/dept/findTree",params)
+			this.$axios.post("http://localhost:8080/dept/findTree",params).then((res) => {
 				console.log(res);
         this.tableTreeDdata = res.data.data.content
         this.popupTreeData = this.getParentMenuTree(res.data)

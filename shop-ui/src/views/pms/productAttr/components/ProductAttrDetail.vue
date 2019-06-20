@@ -127,7 +127,7 @@
 				var params=new URLSearchParams();
 				params.append("currentPage",1);
 				params.append("pageSize",100);
-				this.$axios.post("http://129.28.172.154:8080/pmsProductAttributeCategory/listPmsProductAttributeCategoryByPage",params).then(response => {
+				this.$axios.post("http://localhost:8080/pmsProductAttributeCategory/listPmsProductAttributeCategoryByPage",params).then(response => {
           this.productAttrCateList = response.data.data.content;
         });
       },

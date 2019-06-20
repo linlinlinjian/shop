@@ -135,10 +135,10 @@ export default {
       },
       dataRule: {
         name: [
-          { required: true, message: '机构名称不能为空', trigger: 'blur' }
+          { required: true, message: '名称不能为空', trigger: 'blur' }
         ],
         parentName: [
-          { required: true, message: '上级机构不能为空', trigger: 'change' }
+          { required: true, message: '上级不能为空', trigger: 'change' }
         ]
       },
       popupTreeData: [],
@@ -162,8 +162,8 @@ export default {
 			params.append("currentPage",this.pageRequest.pageNum);
 			params.append("pageSize",this.pageRequest.pageSize);
 			params.append("name",this.filters.name);
-			//this.$axios.post("http://129.28.172.154:8080/dept/findTree",params)
-			this.$axios.post("http://129.28.172.154:8080/pmsProductCategory/listPmsProductCategoryByPage",params).then((res) => {
+			//this.$axios.post("http://localhost:8080/dept/findTree",params)
+			this.$axios.post("http://localhost:8080/pmsProductCategory/listPmsProductCategoryByPage",params).then((res) => {
 				console.log(res);
         this.tableTreeDdata = res.data.data.content
         this.popupTreeData = this.getParentMenuTree(res.data.data.content)

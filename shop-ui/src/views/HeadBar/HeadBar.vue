@@ -12,7 +12,7 @@
       <el-menu :default-active="activeIndex" class="el-menu-demo" 
           :background-color="themeColor" text-color="#fff" active-text-color="#ffd04b" mode="horizontal" @select="selectNavBar()">
         <el-menu-item index="1" @click="$router.push('/')"><i class="fa fa-home fa-lg"></i>  </el-menu-item>
-        <el-menu-item index="2" @click="openWindow('http://129.28.172.154:8080/builder/client/index.html')">商城首页</el-menu-item>
+        <el-menu-item index="2" @click="openWindow('http://localhost:8080/builder/client/index.html')">商城首页</el-menu-item>
       </el-menu>
     </span>
     <!-- 工具栏 -->

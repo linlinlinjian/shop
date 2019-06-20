@@ -1,7 +1,9 @@
 package com.ssm.shop.controller;
 
+import com.ssm.shop.config.UserParams;
 import com.ssm.shop.pojo.basePojo.JsonEntity;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +16,9 @@ import java.util.UUID;
 @RequestMapping("/file")
 @RestController
 public class FileController {
+
+    @Autowired
+    private UserParams userParams;
 
     /**
      * 上传文件
@@ -45,7 +50,9 @@ public class FileController {
     @RequestMapping(value = "/uploadImg")
     public String addOneFile(MultipartFile file, HttpServletRequest request) throws IOException {
         // 构建上传文件的存放 "文件夹" 路径
-        String fileDirPath = new String("D://images//" );
+        String path= userParams.getUploadPath();
+        System.out.println(path);
+        String fileDirPath = new String(path );
 
         File fileDir = new File(fileDirPath);
         if(!fileDir.exists()){
@@ -70,6 +77,6 @@ public class FileController {
             e.printStackTrace();
         }
 
-        return "http://129.28.172.154:8080/img/"+fileName;
+        return "http://localhost:8080/img/"+fileName;
     }
 }

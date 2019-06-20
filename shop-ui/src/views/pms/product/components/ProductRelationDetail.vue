@@ -112,7 +112,7 @@
 				var params = new URLSearchParams();
 				params.append("currentPage",-1);
 				params.append("pageSize",-1);
-				this.$axios.post("http://129.28.172.154:8080/cmsSubject/listCmsSubjectByPage",params).then(response => {
+				this.$axios.post("http://localhost:8080/cmsSubject/listCmsSubjectByPage",params).then(response => {
           let list = response.data.data.content;
           for (let i = 0; i < list.length; i++) {
             this.subjectList.push({

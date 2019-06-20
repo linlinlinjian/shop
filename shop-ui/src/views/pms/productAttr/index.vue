@@ -122,7 +122,7 @@
 				var params = new URLSearchParams();
 				params.append("currentPage",this.listQuery.pageNum);
 				params.append("pageSize",this.listQuery.pageSize);
-        this.$axios.post("http://129.28.172.154:8080/pmsProductAttributeCategory/listPmsProductAttributeCategoryByPage",params).then(response => {
+        this.$axios.post("http://localhost:8080/pmsProductAttributeCategory/listPmsProductAttributeCategoryByPage",params).then(response => {
           this.listLoading = false;
           this.list = response.data.data.content;
           this.total = response.data.data.totalSize;
@@ -149,7 +149,7 @@
         }).then(() => {
 					var params = new URLSearchParams();
 					params.append("id",row.id);
-					this.$axios.post("http://129.28.172.154:8080/pmsProductAttributeCategory/deletePmsProductAttributeCategory",params).then(response=>{
+					this.$axios.post("http://localhost:8080/pmsProductAttributeCategory/deletePmsProductAttributeCategory",params).then(response=>{
             this.$message({
               message: '删除成功',
               type: 'success',
@@ -185,7 +185,7 @@
             let data = new URLSearchParams();
             data.append("name",this.productAttrCate.name);
             if(this.dialogTitle==="添加品牌"){
-              this.$axios.post("http://129.28.172.154:8080/pmsProductAttributeCategory/insertPmsProductAttributeCategory",data).then(response=>{
+              this.$axios.post("http://localhost:8080/pmsProductAttributeCategory/insertPmsProductAttributeCategory",data).then(response=>{
                 this.$message({
                   message: '添加成功',
                   type: 'success',
@@ -196,7 +196,7 @@
               });
             }else{
 							data.append("id",this.productAttrCate.id)
-              this.$axios.post("http://129.28.172.154:8080/pmsProductAttributeCategory/updatePmsProductAttributeCategory",data).then(response=>{
+              this.$axios.post("http://localhost:8080/pmsProductAttributeCategory/updatePmsProductAttributeCategory",data).then(response=>{
                 this.$message({
                   message: '修改成功',
                   type: 'success',
