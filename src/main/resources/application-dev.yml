@@ -23,3 +23,4 @@ server:
 #自定义常量图片上传路径
 user-param:
   uploadPath: D:\\images\\
+  uploadProPath: D:\\images\\product\\

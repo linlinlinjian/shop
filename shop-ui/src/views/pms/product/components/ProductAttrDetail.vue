@@ -127,7 +127,18 @@
         </el-card>
       </el-form-item>
       <el-form-item label="商品相册：">
-        <multi-upload v-model="selectProductPics"></multi-upload>
+<!--        <multi-upload v-model="selectProductPics"></multi-upload>-->
+        <el-upload
+          class="upload-demo"
+          action="http://localhost:8080/file/uploadProImg"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :on-success="handleAvatarSuccess"
+          :file-list="fileList"
+          list-type="picture">
+          <el-button size="small" type="primary">点击上传</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+        </el-upload>
       </el-form-item>
      <!-- <el-form-item label="规格参数：">
         <el-tabs v-model="activeHtmlName" type="card">
@@ -179,7 +190,12 @@
         //可手动添加的商品属性
         addProductAttrValue: '',
         //商品富文本详情激活类型
-        activeHtmlName: 'pc'
+        activeHtmlName: 'pc',
+        imgUrl:'',
+        fileList: [
+          {name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
+          {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}
+          ]
       }
     },
     computed: {
@@ -242,6 +258,16 @@
       }
     },
     methods: {
+      handleAvatarSuccess(res, file) {
+        console.log(res);
+        this.imgUrl+=res.url+",";
+      },
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePreview(file) {
+        console.log(file);
+      },
       handleEditCreated() {
         //根据商品属性分类id获取属性和参数
         if(this.value.productAttributeCategoryId!=null){
@@ -531,12 +557,16 @@
       },
       //合并商品属性图片
       mergeProductAttrPics() {
-        for (let i = 0; i < this.selectProductAttrPics.length; i++) {
-          for (let j = 0; j < this.value.skuStockList.length; j++) {
-            if (this.value.skuStockList[j].sp1 === this.selectProductAttrPics[i].name) {
-              this.value.skuStockList[j].pic = this.selectProductAttrPics[i].pic;
-            }
-          }
+        // for (let i = 0; i < this.selectProductAttrPics.length; i++) {
+        //   for (let j = 0; j < this.value.skuStockList.length; j++) {
+        //     if (this.value.skuStockList[j].sp1 === this.selectProductAttrPics[i].name) {
+        //       this.value.skuStockList[j].pic = this.selectProductAttrPics[i].pic;
+        //     }
+        //   }
+        // }
+        var a=this.imgUrl;
+        for(let i=0;i<this.fileList.length;i++){
+            a+=this.fileList[i].url;
         }
       },
       getOptionStr(arr) {

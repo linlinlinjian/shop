@@ -1,5 +1,6 @@
 package com.ssm.shop.service.inter;
 
+import com.ssm.shop.http.HttpResult;
 import com.ssm.shop.page.PageResult;
 import com.ssm.shop.pojo.SysUser;
 import com.ssm.shop.pojo.SysUserRole;
@@ -35,5 +36,9 @@ public interface SysUserService extends CurdService<SysUser> {
     PageResult findPages(SysUser user);
 
 	int selectCount(SysUser user);
+
+	void loginOut(String token);
+
+	HttpResult queryUserByToken(String token);
 
 }

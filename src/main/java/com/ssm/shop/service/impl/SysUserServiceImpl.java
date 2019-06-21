@@ -8,6 +8,7 @@ import java.util.Set;
 import com.ssm.shop.dao.SysRoleMapper;
 import com.ssm.shop.dao.SysUserMapper;
 import com.ssm.shop.dao.SysUserRoleMapper;
+import com.ssm.shop.http.HttpResult;
 import com.ssm.shop.page.ColumnFilter;
 import com.ssm.shop.page.MybatisPageHelper;
 import com.ssm.shop.page.PageRequest;
@@ -17,13 +18,19 @@ import com.ssm.shop.pojo.SysRole;
 import com.ssm.shop.pojo.SysUser;
 import com.ssm.shop.pojo.SysUserRole;
 import com.ssm.shop.pojo.basePojo.BTEntitiy;
+import com.ssm.shop.service.inter.JedisClientService;
 import com.ssm.shop.service.inter.SysMenuService;
 import com.ssm.shop.service.inter.SysUserService;
+import com.ssm.shop.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
+@PropertySource(value = "classpath:redis.properties")
 public class SysUserServiceImpl  implements SysUserService {
 
 	@Autowired
@@ -34,6 +41,15 @@ public class SysUserServiceImpl  implements SysUserService {
 	private SysUserRoleMapper sysUserRoleMapper;
 	@Autowired
 	private SysRoleMapper sysRoleMapper;
+
+	@Autowired
+	private JedisClientService jedisClient;
+
+	@Value("${REDIS_USER_SESSION_KEY}")
+	private String REDIS_USER_SESSION_KEY;
+
+	@Value("${SSO_SESSION_EXPIRE}")
+	private Integer SSO_SESSION_EXPIRE;
 
 	@Transactional
 	@Override
@@ -178,5 +194,24 @@ public class SysUserServiceImpl  implements SysUserService {
 	@Override
 	public int selectCount(SysUser user) {
 		return sysUserMapper.selectCount(user);
+	}
+
+	@Override
+	public void loginOut(String token) {
+		jedisClient.del(REDIS_USER_SESSION_KEY + ":" + token);
+	}
+
+	@Override
+	public HttpResult queryUserByToken(String token) {
+		// 根据token从redis中查询用户信息
+		String json = jedisClient.get(REDIS_USER_SESSION_KEY + ":" + token);
+		// 判断是否为空
+		if (StringUtils.isEmpty(json)) {
+			return HttpResult.error(400, "此session已经过期，请重新登录");
+		}
+		// 更新过期时间
+		jedisClient.expire(REDIS_USER_SESSION_KEY + ":" + token, SSO_SESSION_EXPIRE);
+		// 返回用户信息
+		return HttpResult.ok(JsonUtils.jsonToPojo(json, SysUser.class));
 	}
 }

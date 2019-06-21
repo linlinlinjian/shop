@@ -10,4 +10,6 @@ import org.springframework.stereotype.Component;
 public class UserParams {
 
     private String uploadPath;
+
+    private String uploadProPath;
 }

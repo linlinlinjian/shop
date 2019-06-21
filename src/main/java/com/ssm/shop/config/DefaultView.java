@@ -1,7 +1,10 @@
 package com.ssm.shop.config;
 
+import com.ssm.shop.interceptors.UserLoginHandlerInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -11,6 +14,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 public class DefaultView extends WebMvcConfigurerAdapter {
+
+    @Autowired
+    private UserLoginHandlerInterceptor userLoginHandlerInterceptor;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -26,4 +32,10 @@ public class DefaultView extends WebMvcConfigurerAdapter {
         registry.setOrder( Ordered.HIGHEST_PRECEDENCE );
         super.addViewControllers( registry );
     }
+
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        // 判断用户是否登录的拦截器
+//        registry.addInterceptor(userLoginHandlerInterceptor).addPathPatterns("/**");
+//    }
 }

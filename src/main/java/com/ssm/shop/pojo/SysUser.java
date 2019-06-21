@@ -26,6 +26,8 @@ public class SysUser extends BaseModel {
     private Byte delFlag;
     
     private String roleNames;
+
+    private String token;
     
     private List<SysUserRole> userRoles = new ArrayList<>();
 
@@ -117,4 +119,11 @@ public class SysUser extends BaseModel {
 		this.userRoles = userRoles;
 	}
 
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 }
